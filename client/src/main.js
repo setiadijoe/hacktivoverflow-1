@@ -3,6 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import Vuex from 'vuex'
+import axios from 'axios'
+
+Vue.use(Vuex)
+
+Vue.prototype.$http = axios.create({
+  baseURL: 'http://localhost:3000/api'
+})
 
 Vue.config.productionTip = false
 

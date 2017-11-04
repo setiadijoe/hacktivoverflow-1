@@ -35,9 +35,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 
 // app.use('/', index);
-app.use('/users', users);
-app.use('/quest', questions)
-app.use('/answer', answers)
+app.use('/api/users', users);
+app.use('/api/quest', questions)
+app.use('/api/answer', answers)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

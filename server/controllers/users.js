@@ -18,46 +18,42 @@ class USER {
   }
   
   static register (req, res) {
-    User.findOne({ username: req.body.username })
-    .then(user => {
-      if (user.username === req.body.username) {
-        res.send('Username sudah digunakan')
-      } else {
-        let user = new User (req.body)
-        user.save()
-        .then(saveduser => {
-          let token = jwt.sign({
-            name: saveduser.name,
-            username: saveduser.username,
-            email: saveduser.email
-          }, key)
-          let jwtToken = { usertoken: token, message: 'New user is coming' }
-          res.status(200).send(jwtToken)
-        }) 
-      }
-    })
+    console.log(req.body);
+    let user = new User (req.body)
+    user.save()
+    .then(saveduser => {
+      console.log('ini kalo berhasil disave');
+      let jwtToken = { usertoken: saveduser, message: 'New user is coming' }
+      res.status(200).send(jwtToken)
+    }) 
     .catch(err => {
-      res.send(err)
+      console.log('ini beneran gagal');
+      res.status(400).send(err)
     })
   }
 
   static login (req, res) {
+    console.log(req.body);
     User.findOne({ username: req.body.username })
       .then(user => {
+        console.log('berhasil masuk gak?');
         if (bcrypt.compareSync(req.body.password, user.password)) {
           let token = jwt.sign({
             name : user.name,
             username: user.username,
             email: user.email
           }, key)
+          console.log('dapet token dong');
           let jwtToken = {usertoken: token, message: 'User is login'}
-          res.send(jwtToken)  
+          res.status(200).send(jwtToken)  
         } else {
-          res.send('Password salah')
+          console.log('salah bu salah');
+          res.status(400).send('Password salah')
         }
       })
       .catch(err => {
-        res.send(err)
+        console.log('belum register ya?');
+        res.status(400).send(err)
       })
   }
 }
