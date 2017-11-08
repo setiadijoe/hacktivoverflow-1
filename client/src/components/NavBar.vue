@@ -34,15 +34,17 @@
 import { mapState, mapMutations } from 'vuex'
 export default {
   data () {
-    token: ''
+    return {
+      token: ''
+    }
   },
   computed: {
     ...mapState ([
       'loginState'
-    ]),
-    set : function () {
-      store.dispatch('setLoginState', !loginState, this.token)
-    }
+    ])
+    // set : function () {
+    //   store.dispatch('setLoginState', !this.loginState, this.token)
+    // }
   },
   created: function () {
     this.getting()
@@ -66,9 +68,9 @@ export default {
     doLogout () {
       console.log('masuk ke log out gak?');
       localStorage.clear()
-      this.$store.commit('setLoginState', false)
-      console.log(this.loginState);
-      this.accessToken = ''
+      // this.$store.commit('setLoginState', false)
+      console.log(this.token);
+      this.token = ''
       this.$router.push('/login')
     }
   }

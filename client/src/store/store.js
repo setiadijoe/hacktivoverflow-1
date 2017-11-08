@@ -44,7 +44,14 @@ const actions = {
   addQuestions ({ commit }, newQuestion) {
     console.log('lalala');
     console.log('ini new Question ', newQuestion);
-    http.post('/quest/addquestion', newQuestion)
+    http.post('/quest', {
+      title: newQuestion.title,
+      question: newQuestion.question
+    },{
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    })
     .then(({data}) => {
       console.log('ini pertanyaan baru', data);
       commit('addNewQuestion', data)

@@ -7,7 +7,9 @@ const hasLogin = (req, res, next) => {
     if (err) {
       console.log('ini ada error :', err);
     } else {
+      console.log('ini authentic code ', decode);
       req.headers = decode
+      console.log(req.headers);
       next()
     }
   })

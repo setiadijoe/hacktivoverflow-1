@@ -11,13 +11,16 @@ var cors = require('cors')
 var users = require('./routes/users');
 var questions = require('./routes/questions');
 var answers = require('./routes/answers')
-mongoose.connection.openUri('mongodb://localhost/NahtanoyFlawless', (err) => {
+
+var db = 'mongodb://nahtanoy:123@hacktivoverflow-shard-00-00-fjtwn.mongodb.net:27017,hacktivoverflow-shard-00-01-fjtwn.mongodb.net:27017,hacktivoverflow-shard-00-02-fjtwn.mongodb.net:27017/test?ssl=true&replicaSet=hacktivoverflow-shard-0&authSource=admin'
+mongoose.connection.openUri(db , (err) => {
   if (err) {
     console.log('database unconnect');
   } else {
     console.log('database connect');
   }
 });
+
 
 var app = express();
 

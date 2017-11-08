@@ -9,7 +9,7 @@ class Quest {
     Question.create({
       title: req.body.title,
       question: req.body.question,
-      author: req.headers.name,
+      author: req.headers.id,
       like : [],
       dislike : []
     })
@@ -18,10 +18,12 @@ class Quest {
         message : 'New question has been added!',
         newQuestion
       }
+      console.log('lolos kagak ?');
       res.status(200).send(response)
     })
     .catch(err => {
-      res.status(400).json(err)
+      console.log('masuk error nih?');
+      res.status(400).send(err)
     })
   }
 

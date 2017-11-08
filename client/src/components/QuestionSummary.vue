@@ -3,11 +3,12 @@
     <div class="panel panel-primary" v-for="question in showQuestion" :key="question.id">
       <div class="panel-heading">
         <h3 class="panel-title">Title: {{ question.title }}</h3>
-        <h3 class="panel-title">Author: {{ question.author}}</h3>
+        <h4 class="panel-title">Author: {{ question.author.name}}</h4>
       </div>
       <div class="panel-body">
         Question: {{ question.question }}
       </div>
+      <button>Delete</button>
     </div>
   </div>
 </template>
@@ -36,6 +37,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .panel-body {
+    color: yellow;
+  }
 </style>

@@ -3,7 +3,7 @@ var router = express.Router();
 const Questions = require('../controllers/questions');
 const Auth = require('../helper/auth')
 
-router.post('/addquestion', Questions.createQuestion)
+router.post('/', Auth.hasLogin, Questions.createQuestion)
 
 router.get('/', Questions.viewQuestion)
 

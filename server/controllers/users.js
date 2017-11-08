@@ -37,11 +37,12 @@ class USER {
     User.findOne({ username: req.body.username })
       .then(user => {
         console.log('berhasil masuk gak?');
+        console.log(user);
         if (bcrypt.compareSync(req.body.password, user.password)) {
           let token = jwt.sign({
-            name : user.name,
-            username: user.username,
-            email: user.email
+            id: user._id,
+            name: user.name,
+            username: user.username
           }, key)
           console.log('dapet token dong');
           let jwtToken = {usertoken: token, message: 'User is login'}
