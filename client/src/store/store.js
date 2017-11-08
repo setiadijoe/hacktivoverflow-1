@@ -64,13 +64,21 @@ const actions = {
       console.log('sukses kagak?');
       localStorage.setItem('accessToken', response.data.usertoken)
       let state = true
+      let token = response.data.usertoken
       console.log('mau ke komit nih');
-      commit('setLoginState', state)
+      commit('setLoginState', state, token)
     })
     .catch(err => {
       console.log('gagal login gak?');
       console.error(err);
     })
+  },
+  inputAnswer ({ commit }, newAnswer) {
+    http.post('/answer', newAnswer)
+    .then(response => {
+      console.log('masukkin jawaban ', response);
+    })
+    .catch(err => console.error(err))
   }
   
 }

@@ -2,12 +2,14 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
       <QuestionList></QuestionList>
+      <question-detail></question-detail>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import QuestionList from '@/components/QuestionList';
+import QuestionList from '@/components/QuestionList'
+import QuestionDetail from '@/components/QuestionDetail'
 export default {
   name: 'HelloWorld',
   data () {
@@ -16,7 +18,8 @@ export default {
     }
   },
   components : {
-    QuestionList
+    QuestionList,
+    QuestionDetail
   }
 }
 </script>
