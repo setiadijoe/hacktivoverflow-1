@@ -1,16 +1,22 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+      <QuestionList></QuestionList>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import QuestionList from '@/components/QuestionList';
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'My First Vue'
     }
+  },
+  components : {
+    QuestionList
   }
 }
 </script>

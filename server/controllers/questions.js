@@ -9,7 +9,9 @@ class Quest {
     Question.create({
       title: req.body.title,
       question: req.body.question,
-      author: req.body.author
+      author: req.headers.name,
+      like : [],
+      dislike : []
     })
     .then(newQuestion => {
       let response = {
@@ -25,6 +27,9 @@ class Quest {
 
   static viewQuestion (req, res) {
     Question.find()
+    .populate('author')
+    .populate('like')
+    .populate('dislike')
       .then(questions => {
         res.status(200).send(questions)
       })
@@ -67,7 +72,7 @@ class Quest {
 
   static upVote (req, res) {
     Question.findByIdAndUpdate(req.params.id, {
-      $push: {
+      $addToSet: {
         like: req.body.userId
       }
     })
@@ -81,7 +86,7 @@ class Quest {
 
   static downVote (req, res) {
     Question.findByIdAndUpdate(req.params.id, {
-      $push: {
+      $addToSet: {
         dislike: req.body.userId
       }
     })

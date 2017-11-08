@@ -9,10 +9,10 @@
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="/#/addquestion">Add Question</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Pricing</a>
@@ -22,9 +22,8 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-          <router-link to="/login" class="btn btn-info">Login</router-link>
+          <router-link :to="'/login'"><a class="btn btn-default" v-if="!loginState">Login</a></router-link>
+          <button type="button" name="button" class="btn btn-danger" @click="doLogout" v-if="loginState">Logout</button>
         </form>
       </div>
     </nav>
@@ -32,8 +31,47 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
 export default {
-
+  data () {
+    token: ''
+  },
+  computed: {
+    ...mapState ([
+      'loginState'
+    ]),
+    set : function () {
+      store.dispatch('setLoginState', !loginState, this.token)
+    }
+  },
+  created: function () {
+    this.getting()
+  },
+  methods: {
+    ...mapMutations([
+      'setLoginState'
+    ]),
+    getting () {
+      console.log('masuk ke sini gak?');
+      if (localStorage.getItem('accessToken') === null ) {
+        console.log('kondisi if');
+        this.loginState = false
+        this.$router.push('/login')
+      } else {
+        console.log('kondisi else');
+        this.loginState = true     
+        this.token = localStorage.getItem('accessToken')
+      }
+    },
+    doLogout () {
+      console.log('masuk ke log out gak?');
+      localStorage.clear()
+      this.$store.commit('setLoginState', false)
+      console.log(this.loginState);
+      this.accessToken = ''
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 

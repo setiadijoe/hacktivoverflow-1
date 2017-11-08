@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form action="localhost:8080/" method="post">
+    <form @submit.prevent="signin">
       <fieldset>
         <legend>Login Please</legend>
         <div class="form-group">
@@ -15,7 +15,7 @@
           <input name="password" placeholder="Enter your password" type="password" v-model="login.password">
           <small class="form-text text-muted">For your access key</small>
         </div>
-        <button type="submit" class="btn btn-primary" v-on:click="gettingIn()">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
         <small class="form-text text-muted">don't have any user? just register</small>
         <router-link to="/register" class="btn btn-info">Register</router-link>
       </fieldset>
@@ -24,31 +24,33 @@
 </template>
 
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex'
 export default {
   data () {
     return {
       login : {
         username: '',
-        password: '',
+        password: ''
       }
     }
   },
+  computed: {
+    ...mapState([
+      'loginState'
+    ]),
+    set : function () {
+      store.dispatch('setLoginState', !loginState)
+    }
+  },
   methods: {
-    gettingIn () {
-      this.$http.post('/users/login', this.login)
-      .then(response => {
-        localStorage.setItem('accessToken', response.data.usertoken)
-        this.$router.push('/')
-        console.log('berhasil login gak?');
-        console.log(response);
-      })
-      .catch(err => {
-        console.log('gagal login gak?');
-        console.log(err);
-      })
-    },
-    gettingOut () {
-      localStorage.removeItem('accessToken')
+    ...mapMutations([
+      'setLoginState'
+    ]),
+    ...mapActions([
+      'gettingIn'
+    ]),
+    signin () {
+      this.gettingIn(this.login)
       this.$router.push('/')
     }
   }

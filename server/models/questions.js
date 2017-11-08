@@ -5,8 +5,8 @@ const questionSchema = new Schema ({
   title : { type: String, required: true },
   question : {type: String, required: true},
   author : {type: Schema.ObjectId, ref: 'Users'},
-  like : [{type: Schema.ObjectId, unique: true, ref: 'Users'}],
-  dislike : [{type: Schema.ObjectId, unique: true, ref: 'Users'}],
+  like : [{type: Schema.ObjectId, ref: 'Users'}],
+  dislike : [{type: Schema.ObjectId, ref: 'Users'}],
   createdAt : { type: Date, default: Date.now },
   updatedAt : { type: Date, default: Date.now }
 })
