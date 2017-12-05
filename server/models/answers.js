@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const answerSchema = new Schema ({
-  question : { type: Schema.ObjectId, ref: 'Questions' },
+  question: { type: Schema.ObjectId, ref: 'Questions' },
   answer : { type: String, required: true },
   user : { type: Schema.ObjectId, ref: 'Users' },
   like: [{ type: Schema.ObjectId, ref: 'Users', unique: true }],

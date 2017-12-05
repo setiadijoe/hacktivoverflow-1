@@ -17,7 +17,7 @@ export default {
   methods: {
     ...mapActions(['getQuestions'])
   },
-  created () {
+  mounted () {
     this.getQuestions()
   }
 }

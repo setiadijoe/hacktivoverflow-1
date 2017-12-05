@@ -10,6 +10,8 @@
       </div>
       <button>Delete</button>
     </div>
+        <!-- Large modal -->
+   
   </div>
 </template>
 

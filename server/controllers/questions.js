@@ -48,7 +48,7 @@ class Quest {
         res.status(500).send(err)
       })
   }
-
+  
   static updateQuestion (req, res) {
     Question.findByIdAndUpdate(req.params.id, {
       $set : {

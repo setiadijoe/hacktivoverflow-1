@@ -1,5 +1,5 @@
 <template>
-<form @submit.prevent="addQuestions(quest)">
+<form>
   <fieldset>
     <legend>Legend</legend>
     <div class="form-group">
@@ -10,7 +10,7 @@
       <label>Question</label>
       <input type="text" class="form-control" placeholder="Question" v-model="quest.question">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" @click.prevent="addQuestions(quest)">Submit</button>
   </fieldset>
 </form>
 </template>

@@ -6,6 +6,7 @@ const Answers = require('../models/answers');
 class Answer {
 
   static postAnswer(req, res) {
+    console.log(req.body)
     Answers.create({
       question: req.body.question,
       answer: req.body.answer,
@@ -19,13 +20,17 @@ class Answer {
         res.status(200).send(response)
       })
       .catch(err => {
-        res.status(400).json(err)
+        console.log('error apanya ? ', err);
+        res.status(500).json(err)
       })
   }
 
   static viewAnswer (req, res) {
     Answers.find()
+    .populate('question')
+    .populate('user')
       .then(answer => {
+        console.log(answer);
         res.status(200).send(answer)
       })
       .catch(err => {
