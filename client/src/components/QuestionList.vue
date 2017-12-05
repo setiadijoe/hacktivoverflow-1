@@ -1,22 +1,23 @@
 <template>
   <div class="col-md-4">
-    <QuestionSummary />
+    <question-widget v-for="question in questions" :key="question._id" :question="question" class="list-group"></question-widget>
   </div>
 </template>
 
 <script>
-import QuestionSummary from '@/components/QuestionSummary'
-import { mapActions } from 'vuex'
+import QuestionWidget from '@/components/QuestionWidget'
+import { mapActions, mapState } from 'vuex'
 export default {
   components : {
-    QuestionSummary
+    QuestionWidget
   },
-  methods : {
-    ...mapActions([
-      'getQuestions'
-    ])
+  computed: {
+    ...mapState(['questions'])
   },
-  created : function () {
+  methods: {
+    ...mapActions(['getQuestions'])
+  },
+  created () {
     this.getQuestions()
   }
 }

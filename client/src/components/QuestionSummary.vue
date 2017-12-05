@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="panel panel-primary" v-for="question in showQuestion" :key="question.id">
+    <div class="panel panel-primary" v-for="question in questions" :key="question._id">
       <div class="panel-heading">
         <h3 class="panel-title">Title: {{ question.title }}</h3>
         <h4 class="panel-title">Author: {{ question.author.name}}</h4>
@@ -16,22 +16,18 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 export default {
-  prop : ['questions'],
   computed : {
-    showQuestion () {
-      return this.questions()
-    }
-  },
-  methods: {
-    ...mapActions([
-      'getQuestions'
-    ]),
     ...mapState([
       'questions'
     ])
   },
+  methods: {
+    ...mapActions([
+      'getQuestions'
+    ])
+  },
   created: function () {
-    this.questions()
+    this.getQuestions()
   }
 
 }

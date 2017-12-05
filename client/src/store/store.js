@@ -11,23 +11,23 @@ const http = axios.create({
 const state = {
   loginState : false,
   questions : [],
-  accessToken: '',
   selected: '',
   user : ''
 }
 
 const mutations = {
   getAllQuestions (state, payload) {
-    console.log('ini dari mutations ',payload);
+    console.log('ini dari mutations ', payload);
     state.questions = payload
   },
   addNewQuestion (state, payload) {
     console.log('ini pertanyaan baru', payload);
     state.questions.push(payload)
   },
-  setLoginState (state, status) {
+  setLoginState (state, payload) {
     console.log('statusnya berbuah di mutations');
-    state.loginState = status
+    state.loginState = payload.status
+    state.user = payload.user
   },
   OneQuestion (state, payload) {
     state.selected = payload
@@ -63,13 +63,11 @@ const actions = {
   },
   gettingIn ({commit}, userLogin){
     http.post('/users/login', userLogin)
-    .then(response => {
-      console.log('sukses kagak?');
-      localStorage.setItem('accessToken', response.data.usertoken)
-      let state = true
-      let token = response.data.usertoken
+    .then(({data}) => {
+      console.log('sukses kagak? ', data);
+      localStorage.setItem('accessToken', data.usertoken)
       console.log('mau ke komit nih');
-      commit('setLoginState', state, token)
+      commit('setLoginState', data)
     })
     .catch(err => {
       console.log('gagal login gak?');
@@ -84,7 +82,7 @@ const actions = {
     .catch(err => console.error(err))
   },
   getOneQuestion ({ commit }, id) {
-    http.post(`/quest/${id}`)
+    http.get(`/quest/${id}`)
     .then(({data}) => {
       console.log('pertanyaan yang dipilih ', data)
       commit('OneQuestion', data)

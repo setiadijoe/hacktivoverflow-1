@@ -46,7 +46,7 @@ class USER {
             username: user.username
           }, key)
           console.log('dapet token dong');
-          let jwtToken = {usertoken: token, message: 'User is login'}
+          let jwtToken = {usertoken: token, user:user.name, message: 'User is login', status: true}
           res.status(200).send(jwtToken)  
         } else {
           console.log('salah bu salah');
