@@ -1,15 +1,14 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-      <QuestionList></QuestionList>
-      <question-detail></question-detail>
+      <add-question></add-question>
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import QuestionList from '@/components/QuestionList'
-import QuestionDetail from '@/components/QuestionDetail'
+import AddQuestion from '@/components/AddQuestion'
 export default {
   name: 'HelloWorld',
   data () {
@@ -18,8 +17,7 @@ export default {
     }
   },
   components : {
-    QuestionList,
-    QuestionDetail
+    AddQuestion
   }
 }
 </script>

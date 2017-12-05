@@ -1,8 +1,5 @@
 const Question = require('../models/questions');
 
-// mengecek sudah ada atau belum akses token di local storage
-// kalau udah ada bisa bikin pertanyaan
-
 class Quest {
 
   static createQuestion (req, res) {
@@ -23,7 +20,19 @@ class Quest {
     })
     .catch(err => {
       console.log('masuk error nih?');
-      res.status(400).send(err)
+      res.status(500).send(err)
+    })
+  }
+
+  static getOneQuestion (req, res) {
+    Question.findById(req.params.id)
+    .populate('author')
+    .then(question => {
+      console.log('sukses ambil gak? ')
+      res.status(200).send(question)
+    })
+    .catch(err => {
+      res.status(500).send(err)
     })
   }
 
@@ -36,7 +45,7 @@ class Quest {
         res.status(200).send(questions)
       })
       .catch(err => {
-        res.status(400).send(err)
+        res.status(500).send(err)
       })
   }
 
@@ -54,7 +63,7 @@ class Quest {
       res.status(200).send(response)
     })
     .catch(err => {
-      res.status(400).send(err)
+      res.status(500).send(err)
     })
   }
 
@@ -68,7 +77,7 @@ class Quest {
       res.send(response).status(200)
     })
     .catch(err => {
-      res.status(400).send(err1)
+      res.status(500).send(err1)
     })
   }
 
@@ -82,7 +91,7 @@ class Quest {
       res.status(200).json(response)
     })
     .catch(err => {
-      res.status(400).json(err)
+      res.status(500).json(err)
     })
   }
 
@@ -96,7 +105,7 @@ class Quest {
       res.status(200).send(response)
     })
     .catch(err => {
-      res.status(400).send(err)
+      res.status(500).send(err)
     })
   }
 }

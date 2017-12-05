@@ -5,21 +5,31 @@ import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import QuestionList from '@/components/QuestionList'
-import AddQuestion from '@/components/AddQuestion'
+import QuestionDetail from '@/components/QuestionDetail'
 
 Vue.use(Router)
 Vue.use(Vuex)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
-      path: '/',
+      path: '*',
+      redirect: '/login'
+    },
+    {
+      path: '/hacktivoverflow',
       component: HelloWorld,
       children: [
-      {
-        path: '',
-        component: QuestionList
-      }
+        {
+          path: '',
+          component: QuestionList
+        },
+        {
+          path: ':id',
+          component: QuestionDetail,
+          props: true
+        }
       ]
     },
     {
@@ -29,10 +39,6 @@ export default new Router({
     {
       path: '/login',
       component: Login
-    },
-    {
-      path: '/addquestion',
-      component: AddQuestion
     }
   ]
 })

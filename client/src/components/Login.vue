@@ -24,8 +24,9 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
+  name: 'Login',
   data () {
     return {
       login : {
@@ -37,21 +38,15 @@ export default {
   computed: {
     ...mapState([
       'loginState'
-    ]),
-    set : function () {
-      store.dispatch('setLoginState', !loginState)
-    }
+    ])
   },
   methods: {
-    ...mapMutations([
-      'setLoginState'
-    ]),
     ...mapActions([
       'gettingIn'
     ]),
     signin () {
       this.gettingIn(this.login)
-      this.$router.push('/')
+      this.$router.push('/hacktivoverflow')
     }
   }
 }

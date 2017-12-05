@@ -38,6 +38,7 @@ class USER {
       .then(user => {
         console.log('berhasil masuk gak?');
         console.log(user);
+        console.log(bcrypt.compareSync(req.body.password, user.password));
         if (bcrypt.compareSync(req.body.password, user.password)) {
           let token = jwt.sign({
             id: user._id,
@@ -54,7 +55,7 @@ class USER {
       })
       .catch(err => {
         console.log('belum register ya?');
-        res.status(400).send(err)
+        res.status(500).send(err)
       })
   }
 }

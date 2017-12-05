@@ -13,7 +13,7 @@ var questions = require('./routes/questions');
 var answers = require('./routes/answers')
 
 // var db = 'mongodb://nahtanoy:123@hacktivoverflow-shard-00-00-fjtwn.mongodb.net:27017,hacktivoverflow-shard-00-01-fjtwn.mongodb.net:27017,hacktivoverflow-shard-00-02-fjtwn.mongodb.net:27017/test?ssl=true&replicaSet=hacktivoverflow-shard-0&authSource=admin'
-var db = 'mongodb://127.0.0.1:27017'
+var db = 'mongodb://127.0.0.1:27017/hacktivoverflow'
 mongoose.connection.openUri(db , (err) => {
   if (err) {
     console.log('database unconnect');

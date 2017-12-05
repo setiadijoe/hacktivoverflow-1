@@ -22,8 +22,8 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <router-link :to="'/login'"><a class="btn btn-default" v-if="!loginState">Login</a></router-link>
-          <button type="button" name="button" class="btn btn-danger" @click="doLogout" v-if="loginState">Logout</button>
+          <router-link :to="'/login'"><a class="btn btn-default" v-if="loginState === false">Login</a></router-link>
+          <button type="button" name="button" class="btn btn-danger" @click="doLogout" v-if="loginState === true">Logout</button>
         </form>
       </div>
     </nav>
@@ -46,31 +46,14 @@ export default {
     //   store.dispatch('setLoginState', !this.loginState, this.token)
     // }
   },
-  created: function () {
-    this.getting()
-  },
   methods: {
     ...mapMutations([
       'setLoginState'
     ]),
-    getting () {
-      console.log('masuk ke sini gak?');
-      if (localStorage.getItem('accessToken') === null ) {
-        console.log('kondisi if');
-        this.loginState = false
-        this.$router.push('/login')
-      } else {
-        console.log('kondisi else');
-        this.loginState = true     
-        this.token = localStorage.getItem('accessToken')
-      }
-    },
     doLogout () {
       console.log('masuk ke log out gak?');
       localStorage.clear()
       // this.$store.commit('setLoginState', false)
-      console.log(this.token);
-      this.token = ''
       this.$router.push('/login')
     }
   }

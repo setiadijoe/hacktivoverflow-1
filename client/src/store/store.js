@@ -12,6 +12,7 @@ const state = {
   loginState : false,
   questions : [],
   accessToken: '',
+  selected: '',
   user : ''
 }
 
@@ -24,10 +25,12 @@ const mutations = {
     console.log('ini pertanyaan baru', payload);
     state.questions.push(payload)
   },
-  setLoginState (state, status, token) {
+  setLoginState (state, status) {
     console.log('statusnya berbuah di mutations');
     state.loginState = status
-    state.accessToken = token
+  },
+  OneQuestion (state, payload) {
+    state.selected = payload
   }
 }
 
@@ -79,6 +82,17 @@ const actions = {
       console.log('masukkin jawaban ', response);
     })
     .catch(err => console.error(err))
+  },
+  getOneQuestion ({ commit }, id) {
+    http.post(`/quest/${id}`)
+    .then(({data}) => {
+      console.log('pertanyaan yang dipilih ', data)
+      commit('OneQuestion', data)
+    })
+    .catch(err => {
+      console.log('error nih')
+      console.error(err)
+    })
   }
   
 }
