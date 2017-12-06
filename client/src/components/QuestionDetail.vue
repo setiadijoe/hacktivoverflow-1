@@ -10,7 +10,7 @@
       </div>
       <button @click="deleteQuestion(selected._id)">Delete</button>
       <button @click.prevent="">Edit</button>
-      <answer-box :quest_id="selected._id"></answer-box>
+      <answer-box :quest_id="id"></answer-box>
     </div>
    <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
 
@@ -36,7 +36,7 @@ export default {
     ...mapState(['selected'])
   },
   methods: {
-    ...mapActions(['getOneQuestion', 'deleteQuestion'])
+    ...mapActions(['getOneQuestion', 'deleteQuestion', 'getAnswers'])
   },
   mounted () {
     this.getOneQuestion(this.id)
@@ -44,6 +44,7 @@ export default {
   watch: {
     id (newId) {
       this.getOneQuestion(newId)
+      this.getAnswers(newId)
     }
   }
 }

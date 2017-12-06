@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const Answer = require('../controllers/answers');
+const Auth = require('../helper/auth')
 
-router.post('/', Answer.postAnswer)
+router.post('/', Auth.hasLogin, Answer.postAnswer)
 
-router.get('/', Answer.viewAnswer)
+router.get('/:id', Answer.viewAnswer)
 
-router.delete('/:id', Answer.deleteAnswer)
+router.delete('/:id', Auth.hasLogin, Answer.deleteAnswer)
 
 module.exports = router;

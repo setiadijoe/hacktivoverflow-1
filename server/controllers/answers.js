@@ -7,10 +7,11 @@ class Answer {
 
   static postAnswer(req, res) {
     console.log(req.body)
+    console.log(req.headers);
     Answers.create({
       question: req.body.question,
       answer: req.body.answer,
-      user: req.body.user
+      user: req.headers.id
     })
       .then(newAnswer => {
         let response = {
@@ -26,7 +27,7 @@ class Answer {
   }
 
   static viewAnswer (req, res) {
-    Answers.find()
+    Answers.find({question: req.params.id})
     .populate('question')
     .populate('user')
       .then(answer => {

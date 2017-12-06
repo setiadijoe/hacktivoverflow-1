@@ -48,6 +48,15 @@ const mutations = {
   setAnswer (state, payload) {
     console.log('ini jawabannya ', payload)
     state.answers = payload
+  },
+  removeOneAnswer (state, payload) {
+    let idx = state.answers.findIndex(a => {
+      console.log('payload ', payload)
+      console.log('state.questions ', a);
+      return a._id === payload._id
+    })
+    console.log('indeksnya yang mau dihapus ', idx)
+    state.answers.splice(idx, 1)
   }
 }
 
@@ -91,15 +100,18 @@ const actions = {
       console.error(err);
     })
   },
-  inputAnswer ({ commit },newAnswer) {
-    var userid = localStorage.getItem('userid')
-    console.log(newAnswer)
+  inputAnswer ({ commit }, thisAnswer) {
+    console.log(thisAnswer)
     var input = {
-      question: newAnswer.id,
-      answer: newAnswer.answer,
-      user: userid
+      question: thisAnswer.id,
+      answer: thisAnswer.answer
     }
-    http.post(`/answer`, input)
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.post(`/answer`, input, config)
     .then(({data}) => {
       console.log('masukkin jawaban ', data.newAnswer)
       commit('pushNewAnswer', data.newAnswer)
@@ -118,6 +130,23 @@ const actions = {
     })
   },
   deleteQuestion ({ commit }, id) {
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        swal(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
     var config = {
       headers: {
         token: localStorage.getItem('accessToken')
@@ -127,20 +156,39 @@ const actions = {
     .then(({data}) => {
       console.log('pertanyaan yang di delete ', data)
       commit('setQuestion', data.deleteQuestion)
+      this.$router.push('/hacktivoverflow')
     })
     .catch(err => {
       console.log('gagal hapus')
       console.error(err)
     })
   },
-  getAnswers ({commit}) {
-    http.get('/answer')
+  getAnswers ({commit}, id) {
+    console.log('ini idnya bukan ? ', id)
+    http.get(`/answer/${id}`)
     .then(({data}) => {
       console.log('kumpulan jawaban ', data)
       commit('setAnswer', data)
     })
     .catch(err => {
       console.log('error dapat jawban')
+      console.error(err)
+    })
+  },
+  deleteOneAnswer ({commit}, id) {
+    console.log('dapat idnya gak? ', id)
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.delete(`/answer/${id}`, config)
+    .then(({data})=> {
+      console.log('jawaban yang dihapus ', data.deleteAnswer)
+      commit('removeOneAnswer', data.deleteAnswer)
+    })
+    .catch(err => {
+      console.log('gagal hapus jawaban ')
       console.error(err)
     })
   }

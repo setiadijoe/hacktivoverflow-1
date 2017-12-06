@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-4">
+  <div class="col-md-12">
     <question-widget v-for="question in questions" :key="question._id" :question="question" class="list-group"></question-widget>
   </div>
 </template>
