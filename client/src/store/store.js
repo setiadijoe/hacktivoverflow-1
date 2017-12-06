@@ -234,6 +234,23 @@ const actions = {
       console.log('ini errornya ')
       console.error(err)
     })
+  },
+  updateQuestion ({commit}, edit) {
+    console.log('Ini yang mau diedit ', edit.quest)
+    console.log('Ini idnya ', edit.id)
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.put(`/quest/${edit.id}`, edit.quest, config)
+    .then(({data}) => {
+      console.log('ini yang baru lho ', data);
+    })
+    .catch(err => {
+      console.log('ini error')
+      console.error(err)
+    })
   }
 }
 

@@ -50,11 +50,14 @@ class Quest {
   }
   
   static updateQuestion (req, res) {
+    console.log('params ', req.params)
+    console.log('body ', req.body);
     Question.findByIdAndUpdate(req.params.id, {
-      $set : {
-        question : req.body.question
+      $set: {
+        title: req.body.title,
+        question: req.body.question
       }
-    })
+    }, {new: true})
     .then(newQuestion => {
       let response = {
         newQuestion,

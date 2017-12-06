@@ -9,6 +9,5 @@ router.get('/', Questions.viewQuestion)
 router.get('/:id', Questions.getOneQuestion)
 router.put('/:id', Auth.hasLogin, Questions.updateQuestion)
 router.delete('/:id', Auth.hasLogin, Questions.deleteQuestion)
-router.post('/:id/upvote', Questions.upVote)
 
 module.exports = router;

@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12">
-    <div class="panel panel-success">
+    <div class="panel panel-success" v-if="enableEdit === false">
       <div class="panel-heading" v-if="selected.author">
         <h3 class="panel-title">Title: {{ selected.title }}</h3>
         <h4 class="panel-title">Author: {{ selected.author.name}}</h4>
@@ -9,17 +9,19 @@
         Question: {{ selected.question }}
       </div>
       <button v-if="user === selected.author.name" @click="deleteQuestion(selected._id)">Delete</button>
-      <button @click.prevent="">Edit</button>
+      <button @click.prevent="openEditForm()">Edit</button>
       <answer-box :quest_id="id"></answer-box>
     </div>
-   <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
-
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          ...
-        </div>
+    <div class="panel panel-info" v-if="enableEdit === true">
+      <div class="form-group">
+        <label class="col-form-label col-form-label-lg" for="inputLarge">Title</label>
+        <input class="form-control form-control-lg" type="text" id="inputLarge" v-model="question.title">
       </div>
+      <div class="form-group">
+        <label class="col-form-label" for="inputDefault">Question</label>
+        <input type="text" class="form-control" v-model="question.question" id="inputDefault">
+      </div>
+      <button type="button" class="btn btn-info" @click="changeQuestion()">Save</button>
     </div>
   </div>
 </template>
@@ -28,6 +30,15 @@
 import AnswerBox from '@/components/AnswerBox'
 import { mapActions, mapState } from 'vuex'
 export default {
+  data () {
+    return {
+      question: {
+        title: '',
+        question: ''
+      },
+      enableEdit: false
+    }
+  },
   props: ['id'],
   components: {
     AnswerBox
@@ -36,9 +47,29 @@ export default {
     ...mapState(['selected', 'user'])
   },
   methods: {
-    ...mapActions(['getOneQuestion', 'deleteQuestion', 'getAnswers'])
+    ...mapActions([
+      'getOneQuestion', 
+      'deleteQuestion', 
+      'getAnswers',
+      'updateQuestion'
+      ]),
+    openEditForm () {
+      this.enableEdit = true
+      this.question.title = this.selected.title
+      this.question.question = this.selected.question
+    },
+    changeQuestion () {
+
+      let obj = {
+        id: this.id,
+        quest: this.question
+      }
+            console.log('check dulu aja ', obj);
+      this.updateQuestion(obj)
+      this.enableEdit = false
+    }
   },
-  mounted () {
+  created () {
     this.getOneQuestion(this.id)
   },
   watch: {
