@@ -13,6 +13,7 @@ class Answer {
       answer: req.body.answer,
       user: req.headers.id
     })
+    // .populate('user')
       .then(newAnswer => {
         let response = {
           message: 'New answer has been added!',

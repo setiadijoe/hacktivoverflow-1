@@ -1,14 +1,14 @@
 <template>
-<form>
+<form class="card border-warning mb-3">
   <fieldset>
-    <legend>Legend</legend>
+    <legend>Do You Have Any Question ?</legend>
     <div class="form-group">
-      <label>Title</label>
-      <input type="text" class="form-control" placeholder="Title" v-model="quest.title">
+      <div><label>Title</label></div>
+      <input type="text" class="form col-md-8" placeholder="Title" v-model="quest.title">
     </div>
     <div class="form-group">
-      <label>Question</label>
-      <input type="text" class="form-control" placeholder="Question" v-model="quest.question">
+      <div><label>Question</label></div>
+      <input type="text" class="form col-md-8" placeholder="Question" v-model="quest.question">
     </div>
     <button type="submit" class="btn btn-primary" @click.prevent="addQuestions(quest)">Submit</button>
   </fieldset>

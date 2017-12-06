@@ -1,25 +1,13 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">HacktivOverFlow</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+      <a class="navbar-brand" href="/hacktivoverflow"><img src="../assets/hacktiv.png" class="img-responsive" alt="test"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/#/addquestion">Add Question</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <router-link :to="'/login'"><a class="btn btn-default" v-if="loginState === false">Login</a></router-link>
@@ -33,11 +21,6 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 export default {
-  data () {
-    return {
-      token: ''
-    }
-  },
   computed: {
     ...mapState ([
       'loginState'
@@ -50,6 +33,7 @@ export default {
     doLogout () {
       console.log('masuk ke log out gak?');
       localStorage.clear()
+      this.checkStatus()
       this.$router.push('/login')
     }
   },

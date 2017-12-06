@@ -21,7 +21,7 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'My First Vue'
+      msg: 'Hacktiv Overflow'
     }
   },
   components : {
@@ -34,7 +34,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
-  font-weight: normal;
+  font-weight: bold;
+  margin-top: 100px
 }
 
 ul {

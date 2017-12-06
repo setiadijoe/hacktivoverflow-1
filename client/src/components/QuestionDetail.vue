@@ -70,7 +70,7 @@ export default {
         id: this.id,
         quest: this.question
       }
-            console.log('check dulu aja ', obj);
+      console.log('check dulu aja ', obj);
       this.updateQuestion(obj)
       this.enableEdit = false
     }

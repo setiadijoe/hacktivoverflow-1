@@ -58,6 +58,7 @@ class Quest {
         question: req.body.question
       }
     }, {new: true})
+    .populate('author')
     .then(newQuestion => {
       let response = {
         newQuestion,

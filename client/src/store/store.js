@@ -19,9 +19,12 @@ const state = {
 const mutations = {
   checkStatus (state, payload) {
     console.log('datanya masukk gak?? ',payload)
-    if (payload.token !== undefined) {
+    if (payload !== undefined) {
       state.user = payload.user
       state.loginState = true
+    } else {
+      state.loginState = false
+      state.user = ''
     }
   },
   getAllQuestions (state, payload) {
@@ -55,6 +58,14 @@ const mutations = {
   setAnswer (state, payload) {
     console.log('ini jawabannya ', payload)
     state.answers = payload
+  },
+  updateQuestion (state, payload) {
+    console.log('pertanyaan baru ', payload)
+    let idx = state.questions.findIndex(a => {
+      return a._id === payload._id
+    })
+    state.questions.splice(idx, 1, payload)
+    state.selected = payload
   },
   removeOneAnswer (state, payload) {
     let idx = state.answers.findIndex(a => {
@@ -261,7 +272,8 @@ const actions = {
     }
     http.put(`/quest/${edit.id}`, edit.quest, config)
     .then(({data}) => {
-      console.log('ini yang baru lho ', data);
+      console.log('ini yang baru lho ', data)
+      commit('updateQuestion', data.newQuestion)
     })
     .catch(err => {
       console.log('ini error')
