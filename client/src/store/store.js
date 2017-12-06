@@ -13,11 +13,17 @@ const state = {
   questions : [],
   answers: [],
   selected: '',
-  user : '',
-  enableEdit: false
+  user : ''
 }
 
 const mutations = {
+  checkStatus (state, payload) {
+    console.log('datanya masukk gak?? ',payload)
+    if (payload.token !== undefined) {
+      state.user = payload.user
+      state.loginState = true
+    }
+  },
   getAllQuestions (state, payload) {
     console.log('ini dari mutations ', payload);
     state.questions = payload
@@ -68,6 +74,16 @@ const mutations = {
     })
     state.answers[idx].like = payload.like
     state.answers[idx].dislike = payload.dislike
+  },
+  addLikeDislikeQuestion (state, payload) {
+    console.log('manipulasi state answer ', payload)
+    let idx = state.questions.findIndex(a => {
+      console.log('state.questions ', a);
+      return a._id === payload._id
+    })
+    state.questions[idx].like = payload.like
+    state.questions[idx].dislike = payload.dislike
+    state.selected = state.questions[idx]
   }
 }
 
@@ -102,7 +118,7 @@ const actions = {
     .then(({data}) => {
       console.log('sukses kagak? ', data);
       localStorage.setItem('accessToken', data.usertoken)
-      localStorage.setItem('userid', data.id)
+      localStorage.setItem('name', data.user)
       console.log('mau ke komit nih');
       commit('setLoginState', data)
     })
@@ -251,6 +267,32 @@ const actions = {
       console.log('ini error')
       console.error(err)
     })
+  },
+  upVoteQuestion ({commit}, id) {
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.put(`/quest/like/${id}`, {}, config)
+    .then(({data}) => {
+      console.log('Vote question ', data)
+      commit('addLikeDislikeQuestion', data)
+    })
+    .catch(err => console.error(err))
+  },
+  downVoteQuestion ({commit}, id) {
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.put(`/quest/dislike/${id}`, {}, config)
+    .then(({data}) => {
+      console.log('Down Vote Question ', data)
+      commit('addLikeDislikeQuestion', data)
+    })
+    .catch(err => console.error(err))
   }
 }
 

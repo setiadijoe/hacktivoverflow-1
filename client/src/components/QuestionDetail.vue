@@ -8,8 +8,12 @@
       <div class="panel-body">
         Question: {{ selected.question }}
       </div>
-      <button v-if="user === selected.author.name" @click="deleteQuestion(selected._id)">Delete</button>
-      <button @click.prevent="openEditForm()">Edit</button>
+      <div class="btn-group-control" role="group" aria-label="Basic example" >
+        <button type="button" class="btn btn-info fa fa-thumbs-up" aria-hidden="true" @click="upVoteQuestion(selected._id)">{{ selected.like.length }}</button>
+        <button v-if="user === selected.author.name" class="btn btn-danger" @click="deleteQuestion(selected._id)">Delete</button>
+        <button class="btn btn-warning" @click.prevent="openEditForm()" v-if="user === selected.author.name">Edit</button>
+        <button type="button" class="btn btn-warning fa fa-thumbs-down" aria-hidden="true" @click="downVoteQuestion(selected._id)">{{ selected.dislike.length }}</button>
+      </div>
       <answer-box :quest_id="id"></answer-box>
     </div>
     <div class="panel panel-info" v-if="enableEdit === true">
@@ -51,7 +55,9 @@ export default {
       'getOneQuestion', 
       'deleteQuestion', 
       'getAnswers',
-      'updateQuestion'
+      'updateQuestion',
+      'upVoteQuestion',
+      'downVoteQuestion'
       ]),
     openEditForm () {
       this.enableEdit = true

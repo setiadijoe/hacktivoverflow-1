@@ -87,9 +87,12 @@ class Quest {
   static upVote (req, res) {
     Question.findByIdAndUpdate(req.params.id, {
       $addToSet: {
-        like: req.body.userId
+        like: req.headers.id
+      },
+      $pull: {
+        dislike: req.headers.id
       }
-    })
+    }, {new: true})
     .then(response => {
       res.status(200).send(response)
     })
@@ -101,9 +104,12 @@ class Quest {
   static downVote (req, res) {
     Question.findByIdAndUpdate(req.params.id, {
       $addToSet: {
-        dislike: req.body.userId
+        dislike: req.headers.id
+      },
+      $pull: {
+        like: req.headers.id
       }
-    })
+    }, {new: true})
     .then(response => {
       res.status(200).send(response)
     })

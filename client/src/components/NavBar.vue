@@ -45,14 +45,22 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setLoginState'
+      'checkStatus'
     ]),
     doLogout () {
       console.log('masuk ke log out gak?');
       localStorage.clear()
-      // this.$store.commit('setLoginState', false)
       this.$router.push('/login')
     }
+  },
+  created () {
+    let user = localStorage.getItem('name')
+    let token = localStorage.getItem('accessToken')
+    let obj = {
+      user: user,
+      token: token
+    }
+    this.checkStatus(obj)
   }
 }
 </script>
