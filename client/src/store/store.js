@@ -13,7 +13,8 @@ const state = {
   questions : [],
   answers: [],
   selected: '',
-  user : ''
+  user : '',
+  enableEdit: false
 }
 
 const mutations = {
@@ -57,6 +58,16 @@ const mutations = {
     })
     console.log('indeksnya yang mau dihapus ', idx)
     state.answers.splice(idx, 1)
+  },
+  addLikeAndDislike (state, payload) {
+    console.log('manipulasi state answer ', payload)
+    let idx = state.answers.findIndex(a => {
+      console.log('payload ', payload)
+      console.log('state.questions ', a);
+      return a._id === payload._id
+    })
+    state.answers[idx].like = payload.like
+    state.answers[idx].dislike = payload.dislike
   }
 }
 
@@ -189,6 +200,38 @@ const actions = {
     })
     .catch(err => {
       console.log('gagal hapus jawaban ')
+      console.error(err)
+    })
+  },
+  likeTheAnswer ({ commit }, id) {
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.put(`/answer/like/${id}`, {}, config)
+    .then(({data}) => {
+      console.log('ini lho yang ngelike ', data)
+      commit('addLikeAndDislike', data)
+    })
+    .catch(err => {
+      console.log('gagal kasih like')
+      console.error(err)
+    })
+  },
+  dislikeTheAnswer ({commit}, id) {
+    var config = {
+      headers: {
+        token: localStorage.getItem('accessToken')
+      }
+    }
+    http.put(`/answer/dislike/${id}`, {}, config)
+    .then(({data}) => {
+      console.log('ini yang di dislike ', data)
+      commit('addLikeAndDislike', data)
+    })
+    .catch(err => {
+      console.log('ini errornya ')
       console.error(err)
     })
   }

@@ -35,7 +35,7 @@ class Answer {
         res.status(200).send(answer)
       })
       .catch(err => {
-        res.status(400).send(err)
+        res.status(500).send(err)
       })
   }
 
@@ -49,35 +49,41 @@ class Answer {
         res.send(response).status(200)
       })
       .catch(err => {
-        res.status(400).send(err1)
+        res.status(500).send(err1)
       })
   }
 
   static upVote(req, res) {
     Answers.findByIdAndUpdate(req.params.id, {
-      $push: {
-        like: req.body.userId
+      $addToSet: {
+        like: req.headers.id
+      },
+      $pull: {
+        dislike: req.headers.id
       }
-    })
+    }, {new: true})
       .then(response => {
-        res.status(200).json(response)
+        res.status(200).send(response)
       })
       .catch(err => {
-        res.status(400).json(err)
+        res.status(500).send(err)
       })
   }
 
   static downVote(req, res) {
     Answers.findByIdAndUpdate(req.params.id, {
-      $push: {
-        dislike: req.body.userId
+      $addToSet: {
+        dislike: req.headers.id
+      },
+      $pull: {
+        like: req.headers.id
       }
-    })
+    },{new: true})
       .then(response => {
         res.status(200).send(response)
       })
       .catch(err => {
-        res.status(400).send(err)
+        res.status(500).send(err)
       })
   }
 }

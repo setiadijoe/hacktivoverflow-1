@@ -1,6 +1,6 @@
 <template>
-  <div class="col-md-8">
-    <div class="panel panel-primary">
+  <div class="col-md-12">
+    <div class="panel panel-success">
       <div class="panel-heading" v-if="selected.author">
         <h3 class="panel-title">Title: {{ selected.title }}</h3>
         <h4 class="panel-title">Author: {{ selected.author.name}}</h4>
@@ -8,7 +8,7 @@
       <div class="panel-body">
         Question: {{ selected.question }}
       </div>
-      <button @click="deleteQuestion(selected._id)">Delete</button>
+      <button v-if="user === selected.author.name" @click="deleteQuestion(selected._id)">Delete</button>
       <button @click.prevent="">Edit</button>
       <answer-box :quest_id="id"></answer-box>
     </div>
@@ -33,7 +33,7 @@ export default {
     AnswerBox
   },
   computed: {
-    ...mapState(['selected'])
+    ...mapState(['selected', 'user'])
   },
   methods: {
     ...mapActions(['getOneQuestion', 'deleteQuestion', 'getAnswers'])

@@ -8,13 +8,16 @@
       </div>
     </form>
     <form v-for="ans in answers" :key="ans._id">
-      <div class="card text-white bg-warning mb-3" style="max-width: 100%;">
+      <div class="card text-white bg-secondary mb-3" style="max-width: 100%;">
         <div class="card-header">Answered by {{ ans.user.name }}</div>
         <div class="card-body">
-          <h4 class="card-title">The answer is</h4>
           <p class="card-text">{{ ans.answer }}</p>
         </div>
-        <button type="button" class="btn btn-outline-danger" @click="deleteOneAnswer(ans._id)">Delete</button>
+        <div class="btn-group-control" role="group" aria-label="Basic example" >
+          <button type="button" class="btn btn-info col-md-2 fa fa-thumbs-up" aria-hidden="true" @click="likeTheAnswer(ans._id)">{{ ans.like.length }}</button>
+          <button type="button" class="btn btn-danger col-md-6" v-if="user === ans.user.name" @click="deleteOneAnswer(ans._id)">Delete</button>
+          <button type="button" class="btn btn-warning col-md-2 fa fa-thumbs-down" aria-hidden="true" @click="dislikeTheAnswer(ans._id)">{{ ans.dislike.length }}</button>
+        </div>
       </div>
     </form>
   </div>
@@ -30,14 +33,18 @@ export default {
     }
   },
   computed: {
-    ...mapState(['answers'])
+    ...mapState(['answers', 'user'])
   },
   created () {
     this.getAnswers(this.quest_id);
   },
   methods: {
     ...mapActions([
-      'inputAnswer', 'getAnswers', 'deleteOneAnswer'
+      'inputAnswer', 
+      'getAnswers', 
+      'deleteOneAnswer',
+      'likeTheAnswer',
+      'dislikeTheAnswer'
     ]),
     fillAnswer (quest_id, answer) {
       let obj = {
